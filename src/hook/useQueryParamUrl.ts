@@ -69,11 +69,13 @@
 // export default useQueryParams
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from "next/navigation";
+import { debounce } from 'lodash';
 type QueryParams<T> = T & { page: number; pageSize: number; s: string }
 function useQueryParams<T extends Record<string, string[] | string>>(
   initialState: T,
   defaultPage: number = 1,
-  defaultPageSize: number = 10
+  defaultPageSize: number = 10,
+
 ): [QueryParams<T>, (key: keyof T, newState: string[], pushToUrl?: boolean) => void] {
   const searchParams = useSearchParams()
   // Hàm xử lý giá trị khởi tạo từ URL
@@ -88,6 +90,7 @@ function useQueryParams<T extends Record<string, string[] | string>>(
       } as QueryParams<T>;
     }
     const urlParams = new URLSearchParams(window.location.search);
+
     const parsedParams: Partial<QueryParams<T>> = {
       ...initialState,
       page: defaultPage,
@@ -108,6 +111,7 @@ function useQueryParams<T extends Record<string, string[] | string>>(
 
     return parsedParams as QueryParams<T>;
   }
+  // console.log("delayTime: ", delayTime)
   // Khởi tạo `queryParams` từ URL
   const [queryParams, setQueryParams] = useState<QueryParams<T>>(getInitialQueryParams);
   useEffect(() => {
@@ -124,7 +128,6 @@ function useQueryParams<T extends Record<string, string[] | string>>(
         const updatedParams = { ...prev, [key]: newState };
         return updatedParams;
       });
-
       if (pushToUrl && typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
         urlParams.delete(key as string);

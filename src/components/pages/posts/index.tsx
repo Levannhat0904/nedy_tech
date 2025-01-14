@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { useAuthors } from "../../../contexts/AuthorsContext";
 import { usePostsV2 } from "../../../hook/CustomHook";
 import { usePaginationV2 } from "../../../hook/usePagination";
@@ -7,6 +7,8 @@ import useDebouncedSearch from "../../../hook/useDebouncedSearch";
 import useQueryParamUrl from "../../../hook/useQueryParamUrl";
 import { IAsset, IAuthor } from "../../../interfaces";
 import MainPage from "@/components/templates/TPostList";
+import { debounce } from "lodash";
+import { useEvenEdit } from "@/contexts/EventContext";
 export type FilterOption = {
   type: "select" | "input"; // Thêm 'input' vào 'type'
   name: string;
@@ -25,7 +27,6 @@ const PPost: React.FC = () => {
     authors: [],
     s: [],
   });
-  console.log("queryParams: ", queryParams);
   const { handleOnPageChange } = usePaginationV2();
 
   // Hàm xử lý khi thay đổi tác giả hoặc tài sản được chọn
@@ -33,20 +34,25 @@ const PPost: React.FC = () => {
     key: "authors" | "assets" | "s",
     selectedValues: string[]
   ) => {
-    updateQueryParams(key, selectedValues, false); // Cập nhật giá trị trong URL
+    updateQueryParams(key, selectedValues, false, 0); // Cập nhật giá trị trong URL
   };
-
-  // const handleInputSearchChange = useDebouncedSearch({
-  //   delay: 1000,
-  //   defaultPageSize: 10,
-  // });
+  const { isEdit } = useEvenEdit();
+  console.log("isEdit:", isEdit);
+  const handleInputSearchChange = useDebouncedSearch({
+    delay: 1000,
+    defaultPageSize: 10,
+  });
+  const debouncedUpdateQueryParams = useCallback(
+    debounce(updateQueryParams, 1000),
+    [updateQueryParams]
+  );
   const filterData: FilterOption[] = [
     {
       type: "input",
       name: "search",
       label: "Search",
-      onChange: (s: string) => handleSelectChange("s", [s]),
-      // onChange: handleInputSearchChange,
+      onChange: (s: string) =>
+        debouncedUpdateQueryParams("s", [s.target.value], false),
     },
     {
       type: "select",
@@ -67,6 +73,7 @@ const PPost: React.FC = () => {
         handleSelectChange("assets", selectedAssets),
     },
   ];
+  console.log("queryParams: ", queryParams);
   // API call với searchParams
   const { data, isLoading, error, isError } = usePostsV2({
     page: queryParams.page,
