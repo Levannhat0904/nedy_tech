@@ -70,6 +70,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from "next/navigation";
 import { debounce } from 'lodash';
+import { useFilter } from '@/contexts/FilterContext';
 type QueryParams<T> = T & { page: number; pageSize: number; s: string }
 function useQueryParams<T extends Record<string, string[] | string>>(
   initialState: T,
@@ -113,19 +114,27 @@ function useQueryParams<T extends Record<string, string[] | string>>(
   }
   // console.log("delayTime: ", delayTime)
   // Khởi tạo `queryParams` từ URL
-  const [queryParams, setQueryParams] = useState<QueryParams<T>>(getInitialQueryParams);
+  // const [queryParams, setQueryParams] = useState<QueryParams<T>>(getInitialQueryParams);
+  const { filter, setFilter } = useFilter<QueryParams<T>>(getInitialQueryParams);
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const updatedQueryParams = getInitialQueryParams();
-      setQueryParams((prevParams) =>
+      // setQueryParams((prevParams) =>
+      //   JSON.stringify(updatedQueryParams) !== JSON.stringify(prevParams) ? updatedQueryParams : prevParams
+      // );
+      setFilter((prevParams) =>
         JSON.stringify(updatedQueryParams) !== JSON.stringify(prevParams) ? updatedQueryParams : prevParams
       );
     }
   }, [searchParams]);
   const updateQueryParams = useCallback(
     (key: keyof T, newState: string[], pushToUrl: boolean = true) => {
-      setQueryParams((prev) => {
-        const updatedParams = { ...prev, [key]: newState };
+      // setQueryParams((prev) => {
+      //   const updatedParams = { ...prev, [key]: newState };
+      //   return updatedParams;
+      // });
+      setFilter((prev) => {
+        const updatedParams = { ...prev, [key]: newState, page: '1' };
         return updatedParams;
       });
       if (pushToUrl && typeof window !== 'undefined') {
@@ -142,7 +151,7 @@ function useQueryParams<T extends Record<string, string[] | string>>(
     },
     [defaultPage, defaultPageSize, searchParams]
   );
-  return [queryParams, updateQueryParams];
+  return [filter, updateQueryParams];
 }
 
 export default useQueryParams;

@@ -8,7 +8,7 @@ import useQueryParamUrl from "../../../hook/useQueryParamUrl";
 import { IAsset, IAuthor } from "../../../interfaces";
 import MainPage from "@/components/templates/TPostList";
 import { debounce } from "lodash";
-import { useEvenEdit } from "@/contexts/EventContext";
+import { useFilter } from "@/contexts/FilterContext";
 export type FilterOption = {
   type: "select" | "input"; // Thêm 'input' vào 'type'
   name: string;
@@ -17,8 +17,10 @@ export type FilterOption = {
   onChange?: any;
   selectedItems?: any;
 };
-
+const pushToUrl = false;
 const PPost: React.FC = () => {
+  const { filter } = useFilter();
+  console.log("filter: ", filter);
   const { authors, assets } = useAuthors();
 
   // Sử dụng hook để quản lý các tham số URL
@@ -27,17 +29,14 @@ const PPost: React.FC = () => {
     authors: [],
     s: [],
   });
-  const { handleOnPageChange } = usePaginationV2();
-
+  const { handleOnPageChange } = usePaginationV2(pushToUrl);
   // Hàm xử lý khi thay đổi tác giả hoặc tài sản được chọn
   const handleSelectChange = (
     key: "authors" | "assets" | "s",
     selectedValues: string[]
   ) => {
-    updateQueryParams(key, selectedValues, false, 0); // Cập nhật giá trị trong URL
+    updateQueryParams(key, selectedValues, pushToUrl); // Cập nhật giá trị trong URL
   };
-  const { isEdit } = useEvenEdit();
-  console.log("isEdit:", isEdit);
   const handleInputSearchChange = useDebouncedSearch({
     delay: 1000,
     defaultPageSize: 10,
@@ -59,7 +58,7 @@ const PPost: React.FC = () => {
       name: "authors",
       label: "Authors",
       items: authors, // Mảng lựa chọn
-      selectedItems: queryParams.authors,
+      selectedItems: filter.authors,
       onChange: (selectedAuthors: string[]) =>
         handleSelectChange("authors", selectedAuthors),
     },
@@ -68,19 +67,18 @@ const PPost: React.FC = () => {
       name: "assets",
       label: "Assets",
       items: assets, // Mảng lựa chọn
-      selectedItems: queryParams.assets,
+      selectedItems: filter.assets,
       onChange: (selectedAssets: string[]) =>
         handleSelectChange("assets", selectedAssets),
     },
   ];
-  console.log("queryParams: ", queryParams);
   // API call với searchParams
   const { data, isLoading, error, isError } = usePostsV2({
-    page: queryParams.page,
-    pageSize: queryParams.pageSize,
-    s: queryParams.s ? queryParams.s : undefined,
-    authors: queryParams.authors, // Lấy selected authors từ queryParams
-    assets: queryParams.assets, // Lấy selected assets từ queryParams
+    page: filter.page,
+    pageSize: filter.pageSize,
+    s: filter.s ? filter.s : undefined,
+    authors: filter.authors, // Lấy selected authors từ filter
+    assets: filter.assets, // Lấy selected assets từ queryParams
   });
   if (isError) {
     return <span>Error: {error.message}</span>;

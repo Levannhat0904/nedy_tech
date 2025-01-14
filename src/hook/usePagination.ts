@@ -24,9 +24,11 @@
 
 // "use client";
 
+import { useFilter } from "@/contexts/FilterContext";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export const usePaginationV2 = (defaultPage = 1, defaultPageSize = 10) => {
+export const usePaginationV2 = (pushToUrl: boolean = true, defaultPage = 1, defaultPageSize = 10) => {
+  const { filter, setFilter } = useFilter();
   const searchParams = useSearchParams(); // Lấy tham số hiện tại
   const router = useRouter(); // Để thay đổi URL
   const handleOnPageChange = (page = defaultPage, pageSize = defaultPageSize) => {
@@ -34,8 +36,15 @@ export const usePaginationV2 = (defaultPage = 1, defaultPageSize = 10) => {
     // Cập nhật lại tham số page và pageSize, giữ nguyên các tham số khác
     updatedParams.set("page", page.toString());
     updatedParams.set("pageSize", pageSize.toString());
-    // Cập nhật URL với các tham số mới
-    router.replace(`?${updatedParams.toString()}`);
+    setFilter((prev) => ({
+      ...prev, // Giữ lại các giá trị cũ
+      page, // Cập nhật giá trị page mới
+      pageSize, // Cập nhật giá trị pageSize mới
+    }));
+    if (pushToUrl) {
+
+      router.replace(`?${updatedParams.toString()}`);
+    }
     // Cuộn lên đầu trang
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

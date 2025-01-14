@@ -45,12 +45,12 @@ const Filter = ({ filterData }: { filterData: FilterOption[] }) => {
                     defaultValue={s}
                     // onChange={handleInputSearchChange}
                     // onChange={filter.onChange}
-                    onChange={() => {
-                      setIsEdit(true);
-                    }}
-                    // onChange={(s) =>
-                    //   debouncedUpdateQueryParams("s", [s.target.value], false)
-                    // }
+                    // onChange={() => {
+                    //   setIsEdit(true);
+                    // }}
+                    onChange={(s) =>
+                      debouncedUpdateQueryParams("s", [s.target.value], false)
+                    }
                     placeholder="input search text"
                     // onSearch={handleSearch}
                     enterButton

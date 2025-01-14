@@ -9,7 +9,7 @@ import { ITag } from "../../../interfaces";
 import { useEvenEdit } from "../../../contexts/EventContext";
 import NFormTag from "@/components/templates/Tag/NFormTag";
 import { useRouter } from "next/navigation";
-
+import { notFound } from "next/navigation";
 interface EditTagProps {
   id: string; // Định nghĩa kiểu của `id`
 }
@@ -20,7 +20,7 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
   const { setIsEdit } = useEvenEdit(); // Lấy dữ liệu từ context
   const [dataReceived, setDataReceived] = useState(null);
   const { isSuccess, isPending, data, mutate } = useUpdateTag();
-  const { mutate: FetchTagById } = useFetchTagById();
+  const { mutate: FetchTagById, isError } = useFetchTagById();
   useEffect(() => {
     if (id) {
       FetchTagById(
@@ -29,14 +29,10 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
           onSuccess: (response) => {
             setDataReceived(response.data.data);
           },
-          onError: (error) => {
-            console.error("Lỗi khi lấy dữ liệu:", error);
-          },
         }
       );
     }
   }, [id, FetchTagById]);
-
   // const navigate = useNavigate();
   useEffect(() => {
     if (isSuccess) {
@@ -44,6 +40,9 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
     }
   }, [isSuccess, data]); // Chạy khi `isSuccess` hoặc `data` thay đổi
 
+  if (isError) {
+    notFound();
+  }
   const handleNavigate = () => {
     router.push("/tags");
     // navigate(`/dashboard/tag`, { state: dataToSendDashboard });

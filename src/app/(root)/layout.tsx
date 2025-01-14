@@ -1,7 +1,7 @@
 import { NDashboardLayout } from "@/components/templates";
 import "../globals.css";
 import { EvenEditProvider } from "@/contexts/EventContext";
-import { FilterProvider } from "@/contexts/FilterContext";
+import { QueryParamsProvider } from "@/contexts/FilterContext";
 export default function RootLayout({
   children,
 }: {
@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <NDashboardLayout>
       <EvenEditProvider>
-        <FilterProvider>{children}</FilterProvider>
+        <QueryParamsProvider>{children}</QueryParamsProvider>
       </EvenEditProvider>
     </NDashboardLayout>
   );

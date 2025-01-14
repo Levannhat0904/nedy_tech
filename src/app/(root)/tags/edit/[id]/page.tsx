@@ -1,6 +1,5 @@
 import EditTag from "@/components/pages/tags/EditTag";
 import React from "react";
-
 export default async function Page({
   params,
 }: {
