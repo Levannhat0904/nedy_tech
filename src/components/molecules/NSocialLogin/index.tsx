@@ -1,4 +1,3 @@
-// src/components/molecules/SocialLogin.tsx
 import React from "react";
 import {
   NIconButtonLogin,

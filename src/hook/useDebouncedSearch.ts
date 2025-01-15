@@ -13,30 +13,30 @@ const useDebouncedSearch = (
   options?: UseDebouncedSearchOptions
 ) => {
   const { delay = 1000, defaultPageSize = 10 } = options || {};
-  const router = useRouter(); // Thay đổi URL
-  const searchParams = useSearchParams(); // Lấy query hiện tại
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [currentParams, setCurrentParams] = useState<Record<string, string>>(
-    Object.fromEntries(searchParams.entries()) // Lấy query params ban đầu
+    Object.fromEntries(searchParams.entries())
   );
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
       const updatedParams = {
-        ...currentParams, // Giữ nguyên các tham số hiện tại
-        page: "1", // Reset page khi tìm kiếm mới
+        ...currentParams,
+        page: "1",
         pageSize: currentParams.pageSize || defaultPageSize.toString(),
-        s: value, // Cập nhật giá trị tìm kiếm
+        s: value,
       };
-      setCurrentParams(updatedParams); // Cập nhật state
+      setCurrentParams(updatedParams);
       const queryString = new URLSearchParams(updatedParams).toString();
-      router.push(`?${queryString}`); // Cập nhật URL
+      router.push(`?${queryString}`);
     }, delay),
     [currentParams, defaultPageSize, delay, router]
   );
 
   const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedSearch(e.target.value); // Thực hiện debounce khi nhập
+    debouncedSearch(e.target.value);
   };
 
   return handleInputSearchChange;

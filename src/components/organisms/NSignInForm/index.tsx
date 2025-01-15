@@ -1,10 +1,15 @@
-// src/components/organisms/SignInForm.tsx
 "use client";
 import React, { useRef, useState } from "react";
-// import { Form, message } from "antd";
 import { ACheckbox, AButton } from "../../atoms";
 import { useMutation } from "@tanstack/react-query";
-import { App, Form, Input, message, notification } from "antd";
+import {
+  App,
+  CheckboxChangeEvent,
+  Form,
+  Input,
+  message,
+  notification,
+} from "antd";
 import { ILoginRequest, ILoginResponse } from "../../../interfaces";
 import { NSocialLogin } from "@/components/molecules";
 import { loginWithAxios } from "@/api/login";
@@ -30,10 +35,10 @@ const OSignInForm: React.FC = () => {
     mutation.mutate(values);
   };
   const mutation = useMutation({
-    mutationFn: (data: ILoginRequest) => loginWithAxios(data), // Hàm thực hiện mutation
+    mutationFn: (data: ILoginRequest) => loginWithAxios(data),
     onSuccess: (data) => {
       if (data?.data?.accessToken) {
-        localStorage.setItem("accessToken", data.data.accessToken); // Lưu token vào localStorage
+        localStorage.setItem("accessToken", data.data.accessToken);
       }
       openNotificationWithIcon(
         "success",
@@ -59,10 +64,9 @@ const OSignInForm: React.FC = () => {
     setLoading(false);
     message.error("Vui lòng điền đầy đủ thông tin hợp lệ!");
   };
-  const [isChecked, setIsChecked] = useState(false); // Quản lý trạng thái
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (e: any) => {
-    setIsChecked(e.target.checked); // Cập nhật trạng thái khi thay đổi
+  const [isChecked, setIsChecked] = useState(false);
+  const handleChange = (e: CheckboxChangeEvent) => {
+    setIsChecked(e.target.checked);
   };
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
@@ -88,7 +92,6 @@ const OSignInForm: React.FC = () => {
             rules={[{ required: true, message: "Please input your email!" }]}
           >
             <Input placeholder="Email" type="email" />
-            {/* <AInput ref={inputRef} placeholder="Email" type="email" /> */}
           </Form.Item>
         </div>
         <div className="mb-4">
@@ -97,11 +100,6 @@ const OSignInForm: React.FC = () => {
             rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input.Password />
-            {/* <AInput
-            placeholder="Password"
-            type="password"
-            // className='ant-input rounded-lg border border-gray-300 bg-[#f5f5f5] px-4 py-2'
-          /> */}
           </Form.Item>
         </div>
         <div className="ant-form-item mb-4 flex items-center">

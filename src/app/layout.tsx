@@ -12,12 +12,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // return <QueryProvider>{children}</QueryProvider>;
   const router = useRouter();
   useEffect(() => {
-    const token = getAccessToken(); // Lấy token từ localStorage
+    const token = getAccessToken();
     if (!token) {
-      router.push("/login"); // Chuyển hướng nếu chưa đăng nhập
+      router.push("/login");
     }
   }, []);
   return (

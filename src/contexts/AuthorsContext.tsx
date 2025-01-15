@@ -10,7 +10,6 @@ import { getSectors } from "../api/sector";
 import { getUserInfo } from "../api/author";
 import { getAssets } from "../api/asset";
 
-// Định nghĩa type cho context
 interface AuthorsContextType {
   authors?: IAuthor[];
   setAuthors: React.Dispatch<React.SetStateAction<IAuthor[]>>;
@@ -20,10 +19,8 @@ interface AuthorsContextType {
   setAssets: React.Dispatch<React.SetStateAction<ISector[]>>;
 }
 
-// Tạo context với giá trị mặc định là undefined
 const AuthorsContext = createContext<AuthorsContextType | undefined>(undefined);
 
-// Tạo provider để cung cấp context cho các component con
 export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
   const [authors, setAuthors] = useState<IAuthor[]>([]);
   const [sectors, setSectors] = useState<ISector[]>([]);
@@ -32,18 +29,15 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
   // Hàm gọi API lấy danh sách tác giả
   const fetchSectors = async () => {
     try {
-      // const response = await getPostsByAuthor() // Giả sử đây là API lấy danh sách tác giả
-      const response = await getSectors(); // Giả sử đây là API lấy danh sách tác giả
+      const response = await getSectors();
       setSectors(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy sector:", error);
     }
   };
-  // Hàm gọi API lấy danh sách tác giả
   const fetchAuthors = async () => {
     try {
-      // const response = await getPostsByAuthor() // Giả sử đây là API lấy danh sách tác giả
-      const response = await getUserInfo(); // Giả sử đây là API lấy danh sách tác giả
+      const response = await getUserInfo();
       setAuthors(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu tác giả:", error);
@@ -57,7 +51,6 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
       console.error("Lỗi khi lấy dữ liệu assets:", error);
     }
   };
-  // Gọi hàm fetchAuthors khi component được mount
   useEffect(() => {
     fetchAuthors();
     fetchSectors();
@@ -73,7 +66,6 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Tạo hook để dễ dàng sử dụng context trong các component khác
 export const useAuthors = (): AuthorsContextType => {
   const context = useContext(AuthorsContext);
   if (!context) {

@@ -9,7 +9,6 @@ const AddTag = () => {
   const { isSuccess, isPending, data, mutate } = useAddTag();
   const router = useRouter();
   const handleNavigate = () => {
-    // Sử dụng navigate và truyền state
     router.push(`/tags/edit/${data?.data.data.id}`);
   };
   const handleFinish = (values: object) => {

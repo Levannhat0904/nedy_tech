@@ -6,7 +6,6 @@ interface SidebarToggleProps {
   collapsed: boolean;
   onToggle?: () => void;
 }
-
 const SidebarToggle: React.FC<SidebarToggleProps> = ({
   collapsed,
   onToggle,

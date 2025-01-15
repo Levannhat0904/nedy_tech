@@ -1,4 +1,3 @@
-// src/components/atoms/SocialIcon.tsx
 import {
   GoogleOutlined,
   FacebookOutlined,

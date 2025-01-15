@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { notification, Space, Button } from "antd";
-import { useEvenEdit } from "../../../contexts/EventContext"; // Giả sử bạn đã có context này
+import { useEvenEdit } from "../../../contexts/EventContext";
 import { useRouter } from "next/navigation";
 const close = () => {
   // console.log('Notification was closed. Either the close button was clicked or duration time elapsed.')
@@ -8,27 +8,22 @@ const close = () => {
 
 const NNotify: React.FC = () => {
   const router = useRouter();
-  const { path, setIsEdit, isOpenNotify, setIsOpenNotify } = useEvenEdit(); // Lấy dữ liệu từ context
+  const { path, setIsEdit, isOpenNotify, setIsOpenNotify } = useEvenEdit();
   const [api, contextHolder] = notification.useNotification();
-  // Tách hàm xử lý Destroy All
   const handleDestroyAll = () => {
-    api.destroy(); // Phá hủy tất cả thông báo
+    api.destroy();
   };
-
-  // Tách hàm xử lý Confirm
   const handleConfirm = (key: string) => {
     setIsEdit(false);
     router.push(path);
-    api.destroy(key); // Phá hủy thông báo có key cụ thể
+    api.destroy(key);
   };
-  // Mở thông báo khi isOpenNotify là true
   useEffect(() => {
     if (isOpenNotify) {
       openNotification();
-      // Reset isOpenNotify để ngừng việc mở thông báo tự động lần sau (nếu cần)
-      setIsOpenNotify(false); // Nếu bạn muốn thông báo chỉ được mở một lần
+      setIsOpenNotify(false);
     }
-  }, [isOpenNotify, setIsOpenNotify]); // Theo dõi sự thay đổi của isOpenNotify
+  }, [isOpenNotify, setIsOpenNotify]);
 
   const openNotification = () => {
     const key = `open${Date.now()}`;

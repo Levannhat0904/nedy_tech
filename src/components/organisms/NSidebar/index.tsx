@@ -14,20 +14,18 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <>
-      {/* Drawer cho mobile */}
       <Drawer
         placement="left"
         closable={false}
         onClose={toggleDrawer}
-        open={open} // Trạng thái Drawer
+        open={open}
         key="left"
-        width={240} // Chiều rộng Drawer
+        width={240}
         className="!p-0"
         styles={{ body: { padding: 0 } }}
       >
         <NSiderNav collapsed={collapsed} toggleCollapse={toggleCollapse} />
       </Drawer>
-      {/* Sider cho web (hiển thị trên màn hình lớn) */}
       <NSiderNav
         collapsed={collapsed}
         toggleCollapse={toggleCollapse}

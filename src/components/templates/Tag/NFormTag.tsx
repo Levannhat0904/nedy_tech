@@ -12,8 +12,6 @@ interface PageTemplateProps {
   handleFinish: (values: object) => void;
   isPending: boolean;
   autoCreateSlug?: boolean;
-  // evenEdit: any
-  // setEvenEdit: any
 }
 
 const NFormTag: React.FC<PageTemplateProps> = ({
@@ -23,15 +21,11 @@ const NFormTag: React.FC<PageTemplateProps> = ({
   form,
   handleFinish,
   isPending,
-  // evenEdit,
-  // setEvenEdit
 }) => {
-  // const { evenEdit, setEvenEdit } = useEvenEdit()
-  // const handleNavigate = usePreventNavigation(evenEdit)
   const navigate = useCustomNavigate();
-  const [api, contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const handleNavigate = (to: string) => {
-    navigate(to); // Điều hướng đến trang được chỉ định
+    navigate(to);
   };
   return (
     <Layout>
@@ -39,7 +33,6 @@ const NFormTag: React.FC<PageTemplateProps> = ({
       <NNotify />
       <Breadcrumb
         className="my-2 mx-2"
-        // items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
         items={[
           {
             title: (
@@ -54,7 +47,6 @@ const NFormTag: React.FC<PageTemplateProps> = ({
           { title: dataReceived?.name },
         ]}
       />
-      {/* {dataReceived ? ( */}
       <App>
         <NFormSection
           autoCreateSlug={autoCreateSlug}
@@ -62,13 +54,8 @@ const NFormTag: React.FC<PageTemplateProps> = ({
           form={form}
           handleFinish={handleFinish}
           isPending={isPending}
-          // evenEdit={evenEdit}
-          // setEvenEdit={setEvenEdit}
         />
       </App>
-      {/* ) : (
-      <p>No data received.</p>
-    )} */}
     </Layout>
   );
 };

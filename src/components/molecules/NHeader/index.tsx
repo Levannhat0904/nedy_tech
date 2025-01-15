@@ -8,18 +8,13 @@ import {
 import { Header } from "antd/es/layout/layout";
 import { NInputSearch } from "../../atoms";
 import { removeAccessToken } from "../../../utils";
-
-// Định nghĩa kiểu cho props
 interface HeaderProps {
   toggleDrawer: () => void;
   collapsed: boolean;
 }
-// Cập nhật component để nhận props với kiểu đã định nghĩa
 const MyHeader: React.FC<HeaderProps> = ({ collapsed, toggleDrawer }) => {
   const handleLogout = () => {
-    // Xóa token đăng nhập khỏi localStorage
     removeAccessToken();
-    // navigate('/login')\
     window.location.reload();
   };
   return (

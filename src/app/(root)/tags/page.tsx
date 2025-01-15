@@ -1,15 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import {
-  Avatar,
-  Button,
-  Layout,
-  Space,
-  Table,
-  Input,
-  notification,
-} from "antd";
+import { Avatar, Button, Layout, Space, Table, Input } from "antd";
 import type { TableProps } from "antd";
 import { useTags } from "../../../hook/useTag";
 import { usePaginationV2 } from "../../../hook/usePagination";

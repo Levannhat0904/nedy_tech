@@ -8,12 +8,10 @@ interface QueryParamsContextType<T> {
   setFilter: React.Dispatch<React.SetStateAction<QueryParams<T>>>;
 }
 
-// Tạo context cho QueryParams
 const QueryParamsContext = createContext<
   QueryParamsContextType<any> | undefined
 >(undefined);
 
-// Tạo Provider cho context
 export const QueryParamsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -28,7 +26,6 @@ export const QueryParamsProvider: React.FC<{ children: React.ReactNode }> = ({
     </QueryParamsContext.Provider>
   );
 };
-// Hook để sử dụng QueryParams context
 export const useFilter = () => {
   const context = useContext(QueryParamsContext);
   if (!context) {

@@ -4,18 +4,18 @@ import Sidebar from "../../organisms/NSidebar";
 import { NFooter, NHeader } from "@/components/molecules";
 import { ReactNode, useState } from "react";
 interface DashboardLayoutProps {
-  children: ReactNode; // Đảm bảo kiểu của children là ReactNode
+  children: ReactNode;
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [open, setOpen] = useState(false); // Quản lý trạng thái Drawer
+  const [open, setOpen] = useState(false);
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
   };
   const toggleDrawer = () => {
-    setOpen(!open); // Đổi trạng thái Drawer
+    setOpen(!open);
   };
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw" }}>

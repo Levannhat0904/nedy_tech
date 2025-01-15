@@ -10,13 +10,13 @@ export const useTags = (params: IFetchTagsParams): UseQueryResult<IFetchTagsResp
   return useQuery({
     queryKey: ['fetchTags', { ...params }],
     queryFn: () => fetchTags(params),
-    staleTime: 5 * 60 * 1000, // 5 phút
-    gcTime: 10 * 60 * 1000 // 10 phút
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000
   })
 }
 export const useAddTag = () => {
   return useMutation({
-    mutationFn: addTag // Hàm thực hiện thêm tag
+    mutationFn: addTag
   })
 }
 export const useUpdateTag = () => {
@@ -42,8 +42,8 @@ export const useDeleteTag = () => {
       queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
     },
     onError: (error: Error) => {
-      console.error('Lỗi khi cập nhật tag:', error.message) // Lỗi
+      console.error('Lỗi khi cập nhật tag:', error.message)
     },
-    onSettled: () => {}
+    onSettled: () => { }
   })
 }

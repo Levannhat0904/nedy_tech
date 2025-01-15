@@ -7,18 +7,8 @@ import {
   NLogoContentBg,
 } from "@/components/atoms";
 import { NSignInForm } from "@/components/organisms";
-// import React, { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 
 const NLoginPage: React.FC = () => {
-  // const navigate = useNavigate();
-
-  // const { isLoggedIn } = useAuthContext();
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/dashboard"); // Hoặc trang chính của bạn
-  //   }
-  // }, [isLoggedIn, navigate]);
   return (
     <NLoginWrapper>
       <NLoginContainer>

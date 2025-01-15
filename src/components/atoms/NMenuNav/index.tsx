@@ -14,21 +14,21 @@ const items = [
     label: "Option 1",
     icon: <PieChartOutlined className="custom-classs" />,
     path: "/option1",
-    className: "custom-classs", // Add custom class here
+    className: "custom-classs",
   },
   {
     key: "2",
     label: "Option 2",
     icon: <DesktopOutlined className="custom-classs" />,
     path: "/option2",
-    className: "custom-classs", // Add custom class here
+    className: "custom-classs",
   },
   {
     key: "3",
     label: "Tags",
     icon: <DesktopOutlined className="custom-classs" />,
     path: "tags",
-    className: "custom-classs", // Add custom class here
+    className: "custom-classs",
   },
 
   {
@@ -42,66 +42,47 @@ const items = [
         label: "Tom",
         icon: <UserOutlined className="custom-classs" />,
         path: "/user/tom",
-        className: "custom-classs", // Add custom class here
+        className: "custom-classs",
       },
       {
         key: "6",
         label: "Bill",
         icon: <UserOutlined className="custom-classs" />,
         path: "/user/bill",
-        className: "custom-classs", // Add custom class here
+        className: "custom-classs",
       },
       {
         key: "7",
         label: "Alex",
         icon: <UserOutlined className="custom-classs" />,
         path: "/user/alex",
-        className: "custom-classs", // Add custom class here
+        className: "custom-classs",
       },
     ],
   },
   {
     key: "8",
-    label: "Bài viết", // Thay đổi thành "Bài viết" thay vì "Post"
+    label: "Bài viết",
     icon: <TeamOutlined />,
     path: "posts",
-    className: "custom-classs", // Add custom class here
+    className: "custom-classs",
   },
 ];
 const CustomMenu = () => {
   // const navigate = useCustomNavigate(); sửa
-  const handleNavigate = (to: string) => {
-    // navigate(to); // Điều hướng đến trang được chỉ định sửa
-  };
-  // items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
-  //  items={[
-  //   {
-  //     title: (
-  //       <span onClick={() => handleNavigate('/dashboard/tag')} style={{ cursor: 'pointer', color: 'blue' }}>
-  //         Tag
-  //       </span>
-  //     )
-  //   },
-  //   { title: dataReceived?.name }
-  // ]}
+  // const handleNavigate = (to: string) => {
+  //   // navigate(to); // Điều hướng đến trang được chỉ định sửa
+  // };
   const menuItems = items.map((item) => {
     if (item.children) {
       return {
         key: item.key,
         icon: item.icon,
         label: item.label,
-        className: "custom-classs", // Áp dụng className cho các submenus
+        className: "custom-classs",
         children: item.children.map((child) => ({
           key: child.key,
           icon: child.icon,
-          // label: (
-          //   <div
-          //     onClick={() => handleNavigate(child.path)}
-          //     style={{ cursor: "pointer", color: "blue" }}
-          //   >
-          //     {child.label}
-          //   </div>
-          // ),
           label: <Link href={child.path}>{child.label}</Link>,
           className: "custom-classs",
         })),
@@ -120,7 +101,7 @@ const CustomMenu = () => {
         //   {item.label}
         // </div>
       ),
-      className: item.className, // Áp dụng className cho từng item riêng biệt
+      className: item.className,
     };
   });
   // photo booth
@@ -133,7 +114,6 @@ const CustomMenu = () => {
             bodyBg: "#000",
           },
           Menu: {
-            /* here is your component tokens */
             itemActiveBg: "none",
             itemHoverColor: "#eda041",
             itemSelectedColor: "#eda041",
@@ -144,7 +124,6 @@ const CustomMenu = () => {
       }}
     >
       <Menu
-        // style={siderStyle}
         mode="inline"
         defaultSelectedKeys={["0"]}
         className="text-[#038fde] custom-menu bg-[#013366] h-screen"

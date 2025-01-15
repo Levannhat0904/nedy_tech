@@ -14,8 +14,6 @@ interface FormSectionProps {
   handleFinish: (values: object) => void;
   isPending: boolean;
   autoCreateSlug?: boolean;
-  // evenEdit: any
-  // setEvenEdit: any
 }
 
 const NFormSection: React.FC<FormSectionProps> = ({
@@ -24,11 +22,9 @@ const NFormSection: React.FC<FormSectionProps> = ({
   handleFinish,
   isPending,
   autoCreateSlug,
-  // evenEdit,
-  // setEvenEdit
 }) => {
   const [uploading, setUploading] = useState(false);
-  const { isEdit, setIsEdit } = useEvenEdit();
+  const { setIsEdit } = useEvenEdit();
   const handleChange = () => {
     setIsEdit(true);
   };
@@ -68,7 +64,6 @@ const NFormSection: React.FC<FormSectionProps> = ({
         />
         <NFormSEO />
         <NFormButtons isPending={isPending || uploading} />
-        {/* <NNotify setEvenEdit={setEvenEdit} evenEdit={evenEdit} /> */}
       </Form>
     </Layout>
   );

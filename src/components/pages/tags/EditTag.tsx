@@ -11,13 +11,13 @@ import NFormTag from "@/components/templates/Tag/NFormTag";
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 interface EditTagProps {
-  id: string; // Định nghĩa kiểu của `id`
+  id: string;
 }
 
 const EditTag: React.FC<EditTagProps> = ({ id }) => {
   const [form] = Form.useForm();
   const router = useRouter();
-  const { setIsEdit } = useEvenEdit(); // Lấy dữ liệu từ context
+  const { setIsEdit } = useEvenEdit();
   const [dataReceived, setDataReceived] = useState(null);
   const { isSuccess, isPending, data, mutate } = useUpdateTag();
   const { mutate: FetchTagById, isError } = useFetchTagById();
@@ -33,12 +33,11 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
       );
     }
   }, [id, FetchTagById]);
-  // const navigate = useNavigate();
   useEffect(() => {
     if (isSuccess) {
       handleNavigate();
     }
-  }, [isSuccess, data]); // Chạy khi `isSuccess` hoặc `data` thay đổi
+  }, [isSuccess, data]);
 
   if (isError) {
     notFound();
@@ -49,10 +48,8 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
   };
 
   const handleFinish = (values: ITag) => {
-    // const res = editTag(id, values)
     mutate({ id: id, newData: values });
     setIsEdit(false);
-    // mutate(values)
   };
 
   const initialValues = dataReceived || {};
@@ -63,7 +60,7 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
         <Skeleton className="w-full" active />;
         <Skeleton className="w-full" active />;
       </div>
-    ); // Hoặc có thể hiển thị một component loading
+    );
   }
 
   return (
@@ -73,8 +70,6 @@ const EditTag: React.FC<EditTagProps> = ({ id }) => {
       form={form}
       handleFinish={handleFinish}
       isPending={isPending}
-      // evenEdit={evenEdit}
-      // setEvenEdit={setEvenEdit}
     />
   );
 };
